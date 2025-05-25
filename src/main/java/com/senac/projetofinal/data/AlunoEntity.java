@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull; 
 import java.util.Date;
 import lombok.Data; 
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data 
 @Entity 
@@ -19,6 +20,7 @@ public class AlunoEntity
 { 
     @Id 
     @GeneratedValue(strategy = GenerationType.AUTO) 
+    @Column(name="id_aluno")
     private Integer id; 
     
     @NotBlank(message="Nome obrigatório")  
@@ -39,9 +41,11 @@ public class AlunoEntity
     
     @NotNull(message="Data de nascimento obrigatória")
     @Column(name="dt_nascimento")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dtNascimento; 
     
-    @Column(name="dt_cadastro")
+    @Column(name="dt_cadastro") 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dtCadastro; 
     
     private String telefones;

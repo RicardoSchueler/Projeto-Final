@@ -1,2 +1,6 @@
+com\senac\projetofinal\service\AlunoService.class
+com\senac\projetofinal\controller\AlunoController.class
+com\senac\projetofinal\repository\AlunoRepository.class
+com\senac\projetofinal\data\AlunoEntity.class
+com\senac\projetofinal\controller\SiteController.class
 com\senac\projetofinal\ProjetofinalApplication.class
-com\senac\projetofinal\controller\CadastroController.class

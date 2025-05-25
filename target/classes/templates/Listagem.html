@@ -7,18 +7,21 @@
     <div class="container"> 
         <div class="row"> 
             <div style="background-color: white;" class="col-md-3" > 
-                <img src="imagens/Logotipo.jpg" width="70" height="70" class="text-center"> 
+                <img src="../images/Logotipo.jpg" width="70" height="70" class="text-center"> 
             </div> 
             <div style="background-color: white;" class="col-md-9"> 
                 <br/>
                 <ul class="nav"> 
                     <li class="nav-item"> 
-                        <a class="nav-link" href="Escola de Musica.html">Página Inicial</a> 
+                        <a class="nav-link" th:href="@{/principal}">Principal</a> 
+                    </li>  
+                    <li class="nav-item"> 
+                        <a class="nav-link" th:href="@{/criarAlunoForm}">Aluno</a>  
                     </li> 
                     <li class="nav-item"> 
-                        <a class="nav-link" href="Cadastro.html">Cadastro</a> 
-                    </li>                         
-                    <li class="nav-item"> 
+                            <a class="nav-link" th:href="@{/listarAlunosForm}">Listagem</a>  
+                    </li>                      
+                    <!-- <li class="nav-item"> 
                         <a class="nav-link" href="Pagamentos.html">Pagamentos</a> 
                     </li> 
                     <li class="nav-item"> 
@@ -26,7 +29,7 @@
                     </li> 
                     <li class="nav-item"> 
                         <a class="nav-link" href="Financeiro.html">Financeiro</a> 
-                    </li>                         
+                    </li>   -->                      
                   </ul>  
             </div> 
         </div> 
@@ -36,69 +39,50 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script> 
 </head>
 <body>
+    
+    <div class="container my-2">    
 
-    <br/>
-    <div class="text-center"> 
-        <h3>Lista de Cadastramentos Realizados</h3> 
-    </div>   
-    <br/>  
-
-    <table id="jsonTable" style="width:100%" border-collapse="collapse" class="table-responsive table table-striped">
-        <thead>
-            <tr>
-                <th>Tipo</th>
-                <th>Nome</th> 
-                <th>CPF</th> 
-                <th>Identidade</th>
-                <th>UF</th>
-                <th>E-mail</th> 
-                <th>Dt. Nascimento</th>
-                <th>Endereço</th>
-                <th>Telefones</th>
-                <th>Id</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
-    <script src="jquery.js"></script>
-    <script>
-        $(document).ready(function()
-        {            
-            var tableBody = $('#jsonTable tbody');
-
-            $.get("http://localhost:3000/listagem", function(data, status)
-            {
-                for (i = 0; i < data.length; i++) 
-                {                  
-                    var row = $('<tr>');
-                    row.append($('<td>').text(data[i].tipo));
-                    row.append($('</td>'));    
-                    row.append($('<td>').text(data[i].nome));
-                    row.append($('</td>'));
-                    row.append($('<td>').text(data[i].cpf));
-                    row.append($('</td>'));    
-                    row.append($('<td>').text(data[i].identidade));
-                    row.append($('</td>'));    
-                    row.append($('<td>').text(data[i].uf_id));
-                    row.append($('</td>')); 
-                    row.append($('<td>').text(data[i].email));
-                    row.append($('</td>'));    
-                    row.append($('<td>').text(data[i].dt_nascimento));
-                    row.append($('</td>'));   
-                    row.append($('<td>').text(data[i].endereco));
-                    row.append($('</td>'));    
-                    row.append($('<td>').text(data[i].telefones));
-                    row.append($('</td>'));
-                    row.append($('<td>').text(data[i].id));
-                    row.append($('</td>'));                                           
-                    row.append($('</tr>'));
-                    tableBody.append(row);
-                }
-            });  
-         });
-    </script>
+        <br/>
+        <h1 class="titulo">Lista de Cadastramentos Realizados</h1>
+        <a th:href="@{/criarAlunoForm}" class="btn btn-primary btn-sm mb-3">Adicionar</a>
+        <br/>
+        
+        <table border="1" class="table table-striped table-responsive-md"> 
+            <thead>
+                <tr>   
+                    <th>Id</th>
+                    <th>Nome</th> 
+                    <th>CPF</th> 
+                    <th>Identidade</th>
+                    <th>UF</th>
+                    <th>E-mail</th> 
+                    <th>Dt. Nascimento</th>
+                    <th>Dt. Cadastro</th>
+                    <th>Telefones</th>
+                    <th>Endereço</th>                        
+                </tr>
+            </thead>
+            <tbody>
+               <tr th:each="aluno: ${listarAlunos}"> 
+                    <td th:text="${aluno.id}"></td> 
+                    <td th:text="${aluno.nome}"></td> 
+                    <td th:text="${aluno.cpf}"></td>  
+                    <td th:text="${aluno.identidade}"></td>
+                    <td th:text="${aluno.ufIdentidade}"></td> 
+                    <td th:text="${aluno.email}"></td> 
+                    <td th:text="${aluno.dtNascimento}"></td> 
+                    <td th:text="${aluno.dtCadastro}"></td> 
+                    <td th:text="${aluno.telefones}"></td> 
+                    <td th:text="${aluno.endereco}"></td> 
+                    <td> 
+                        <a th:href="@{/atualizarAlunoForm/{id}(id=${aluno.id})}" class="btn btn-primary">Atualizar</a> 
+                        <a th:href="@{/deletarAluno/{id}(id=${aluno.id})}" class="btn btn-danger">Excluir</a> 
+                    </td> 
+                </tr>                 
+            </tbody>
+        </table>
+        
+    </div> 
 
 </body>
 </html>

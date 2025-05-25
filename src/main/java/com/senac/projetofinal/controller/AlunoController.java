@@ -3,10 +3,10 @@ package com.senac.projetofinal.controller;
 import com.senac.projetofinal.data.AlunoEntity;
 import com.senac.projetofinal.service.AlunoService;
 import jakarta.validation.Valid; 
+//import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.validation.BindingResult; 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,11 +21,10 @@ public class AlunoController
     private AlunoService alunoService;
     
     @GetMapping("/listarAlunosForm")
-    public String viewHomePage(@CookieValue(name="pref-estilo", defaultValue="claro")String tema, Model model) 
+    public String viewHomePage(Model model) 
     {
-        model.addAttribute("css", tema); 
         model.addAttribute("listarAlunos", alunoService.listarTodosAlunos()); 
-        return "index"; 
+        return "ListagemAluno"; 
     } 
     
     @GetMapping("/deletarAluno/{id}") 
@@ -36,12 +35,11 @@ public class AlunoController
     } 
 
     @GetMapping("/criarAlunoForm") 
-    public String criarAlunoForm(@CookieValue(name="pref-estilo", defaultValue="claro")String tema, Model model) 
+    public String criarAlunoForm(Model model) 
     { 
-        model.addAttribute("css", tema);  
         AlunoEntity aluno = new AlunoEntity(); 
         model.addAttribute("aluno", aluno); 
-        return "inserir"; 
+        return "CadastroAluno"; 
     } 
 
     @PostMapping("/salvarAluno") 
@@ -49,27 +47,28 @@ public class AlunoController
     { 
         if (result.hasErrors()) 
         { 
-            return "inserir"; 
+            return "CadastroAluno";             
+            //JOptionPane.showMessageDialog(null, result.hasErrors());
         } 
 
         if (aluno.getId()==null) 
         { 
             alunoService.criarAluno(aluno); 
+            //return "TrataErros";
         } 
         else 
         { 
-            alunoService.atualizarAluno(aluno.getId(), aluno); 
+            alunoService.atualizarAluno(aluno.getId(), aluno);              
         } 
 
         return "redirect:/listarAlunosForm"; 
     } 
 
     @GetMapping("/atualizarAlunoForm/{id}") 
-    public String atualizarAlunoForm(@PathVariable(value = "id") Integer id, @CookieValue(name="pref-estilo", defaultValue="claro")String tema, Model model) 
-    { 
-        model.addAttribute("css", tema); 
+    public String atualizarAlunoForm(@PathVariable(value = "id") Integer id, Model model) 
+    {         
         AlunoEntity aluno = alunoService.getAlunoId(id); 
         model.addAttribute("aluno", aluno); 
-        return "atualizar"; 
+        return "AtualizarAluno"; 
     } 
 }
